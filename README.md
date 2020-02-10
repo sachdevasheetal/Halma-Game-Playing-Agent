@@ -81,3 +81,17 @@ b) One or more jumps over adjacent pieces:
 If the current play results in having every square of the opposing camp that is not already
 occupied by the opponent to be occupied by one's own pieces, the acting player wins.
 Otherwise, play proceeds to the other player.
+
+Input:
+First Line: GAME or SINGLE
+Second Line: A string BLACK or WHITE indicating which color you play
+Third Line: A strictly positive floating point number indicating the amount of total play time
+remaining for your agent.
+Next 16 lines: Description of the game board, with 16 lines of 16 symbols each
+
+Output:
+1 or more lines: Describing your move(s). There are two possible types of moves
+1. E FROM_X,FROM_Y TO_X,TO_Y – your agent moves one of your pieces from location
+FROM_X, FROM_Y to adjacent empty location TO_X, TO_Y.
+2. J FROM_X,FROM_Y TO_X,TO_Y – your agent moves one of your pieces from location
+FROM_X,FROM_Y to empty location TO_X,TO_Y by jumping over a piece in between.
