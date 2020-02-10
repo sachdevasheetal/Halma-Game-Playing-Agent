@@ -46,15 +46,11 @@ BB..............
 
 Here B denotes player one and W denotes player 2
 
-1. Moving pieces
+1. Moving pieces: 
 a) Players cannot make a move that starts outside their own camp and causes one of their
 pieces to end up in their own camp.
-b) If a player has at least one piece left in their own camp, they have to
-• Move a piece out of their camp (i.e. at the end of the whole move the piece ends up
-outside of their camp).
-• If that’s not possible, move a piece in their camp further away from the corner of their
-own camp ([0,0] or [15,15] respectively).
-Only if the player does not have any pieces left in their camp or none of the two alternatives
+b) If a player has at least one piece left in their own camp, they have to move a piece out of their camp (i.e. at the end of the whole move the piece ends up outside of their camp). If that’s not possible, move a piece in their camp further away from the corner of their
+own camp ([0,0] or [15,15] respectively). Only if the player does not have any pieces left in their camp or none of the two alternatives
 above are possible are they free to move pieces outside of their camp.
 Note: To move “further away”, you should simply move so that you either move further away
 horizontally (while not moving closer vertically), or vertically (while not moving closer
