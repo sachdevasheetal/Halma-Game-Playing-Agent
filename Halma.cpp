@@ -56,21 +56,15 @@ bool can_be_pushed(char player,pair<int,int> start,pair<int,int> end,int target)
 		return false;
 		else if(target&&(end.first-start.first<0||end.second-start.second<0)&&min_target.find(start)!=min_target.end()&&min_target.find(end)!=min_target.end())
 		return false;
-		/*else if(target&&(end.first-start.first<0||end.second-start.second<0)&&max_target.find(start)!=max_target.end()&&max_target.find(end)!=max_target.end())
-		return false;*/
 	}
 	else
 	{
-		/*cout<<"in check"<<endl;
-		cout<<start.first<<" "<<start.second<<" "<<end.first<<" "<<end.second<<endl;*/
 		if(max_target.find(start)==max_target.end()&&max_target.find(end)!=max_target.end())
 		return false;
 		if(min_target.find(start)!=min_target.end()&&min_target.find(end)==min_target.end())
 		return false;
 		else if(target&&(end.first-start.first>0||end.second-start.second>0)&&max_target.find(start)!=max_target.end()&&max_target.find(end)!=max_target.end())
 		return false;
-		/*else if(target&&(end.first-start.first>0||end.second-start.second>0)&&max_target.find(start)!=max_target.end()&&max_target.find(end)!=max_target.end())
-		return false;*/
 	}
 	return true;
 }
@@ -112,7 +106,6 @@ int white_heur[16][16]={{0,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11
 void find_board(vector<pair<int,int> > step,vector<vector<char> > &b,char player)
 {
 	int n=step.size();
-//	cout<<"find"<<endl;
 	pair<int,int> start=step[0];
 	pair<int,int> end=step[n-1];
 	b[start.first][start.second]='.';
@@ -252,9 +245,6 @@ void next_move(int level,int target,pq &que,vector<pair<int,int> > &step,set<vec
 			if(find(store.begin(),store.end(),tuple)==store.end()&&can_be_pushed(player,step[0],step[step.size()-1],target))
 			{
 			store.insert(tuple);
-			
-			
-		//	double dist_start=calculate_distance(step[0],player);
 			double dist_end=calculate_distance({i,j},player);
 			
 			que.p.push({dist_end,store.find(tuple)});
@@ -275,32 +265,6 @@ void next_move(int level,int target,pq &que,vector<pair<int,int> > &step,set<vec
 				
 						if(update[i+dx][j+dy]=='.'&&!jump)
 						{
-						
-						/*if(player=='B')
-						{
-									
-							if(target&&(dx<0||dy<0)&&min_target.find(step[0])!=min_target.end()&&min_target.find({i+dx,j+dy})!=min_target.end())
-							{
-								continue;
-							}
-							if(target&&(dx<0||dy<0)&&max_target.find(step[0])!=max_target.end()&&max_target.find({i+dx,j+dy})!=max_target.end())
-							{
-								continue;
-							}
-						}
-						if(player=='W')
-						{
-							
-							if(target&&(dx>0||dy>0)&&max_target.find(step[0])!=max_target.end()&&max_target.find({i+dx,j+dy})!=max_target.end())
-							{
-								continue;
-							}
-							if(target&&(dx>0||dy>0)&&min_target.find(step[0])!=min_target.end()&&min_target.find({i+dx,j+dy})!=min_target.end())
-							{
-								continue;
-							}
-
-						}*/
 						char store_old=update[i][j];
 						char store_new=update[i+dx][j+dy];
 						update[i][j]='.';
@@ -313,13 +277,10 @@ void next_move(int level,int target,pq &que,vector<pair<int,int> > &step,set<vec
 						if(find(store.begin(),store.end(),tuple)==store.end()&&can_be_pushed(player,step[0],step[step.size()-1],target))
 						{
 							store.insert(tuple);
-						//	double dist_start=calculate_distance(step[0],player);
 							double dist_end=calculate_distance({i+dx,j+dy},player);
-							//double dist=calculate_distance(step[0],player);	
 							que.p.push({dist_end,store.find(tuple)});
 							if(level==global_depth&&player==me)
 							ans[tuple]=step;
-							//step.pop_back();
 						}
 						update[i][j]=store_old;
 						update[i+dx][j+dy]=store_new;
@@ -328,8 +289,6 @@ void next_move(int level,int target,pq &que,vector<pair<int,int> > &step,set<vec
 						}
 					else
 					{
-						//cout<<"befor befor next move ";
-						//cout<<i<<" "<<j<<endl;	
 						if(update[i+dx][j+dy]!='.')
 						{
 							char s=copy[i][j];
@@ -340,64 +299,19 @@ void next_move(int level,int target,pq &que,vector<pair<int,int> > &step,set<vec
 								char store_new=update[i+2*dx][j+2*dy];
 								update[i+2*dx][j+2*dy]=player;
 								update[i][j]='.';
-								//cout<<"before next move ";
-								//		cout<<i<<" "<<j<<endl;
-								//if(can_be_pushed(player,step[0],{i+2*dx,j+2*dy}))
-								{
-									//cout<<"jump"<<endl;
-									//positions.push_back(update);
-									//step.push_back({i,j});
-									//store.push_back(step);
-									/*if(player=='B')
-									{
-										if(target&&(dx<0||dy<0)&&min_target.find(step[0])!=min_target.end()&&min_target.find({i+2*dx,j+2*dy})!=min_target.end())
-										{
-										//	cout<<endl<<"bull"<<endl;
-											copy[i][j]=s;
-											update[i+2*dx][j+2*dy]=store_new;
-											update[i][j]=store_prev;
-											continue;
-										}
-										if(target&&(dx<0||dy<0)&&max_target.find(step[0])!=max_target.end()&&max_target.find({i+2*dx,j+2*dy})!=max_target.end())
-										{
-										//	cout<<endl<<"bull"<<endl;
-											copy[i][j]=s;
-											update[i+2*dx][j+2*dy]=store_new;
-											update[i][j]=store_prev;
-											continue;
-										}
-									}
-									else 
-									{
-										if(target&&(dx>0||dy>0)&&max_target.find(step[0])!=max_target.end()&&max_target.find({i+2*dx,j+2*dy})!=max_target.end())
-										{
-											copy[i][j]=s;
-											update[i+2*dx][j+2*dy]=store_new;
-											update[i][j]=store_prev;
-											continue;	
-										}
-										if(target&&(dx>0||dy>0)&&min_target.find(step[0])!=min_target.end()&&min_target.find({i+2*dx,j+2*dy})!=min_target.end())
-										{
-											copy[i][j]=s;
-											update[i+2*dx][j+2*dy]=store_new;
-											update[i][j]=store_prev;
-											continue;	
-										}
-									}*/
-									step.push_back({i+2*dx,j+2*dy});
-									vector<pair<int,int> > tuple;
-									
-									tuple.push_back(step[0]);
-									tuple.push_back(step[step.size()-1]);
-									if(find(store.begin(),store.end(),tuple)==store.end())
+								step.push_back({i+2*dx,j+2*dy});
+								vector<pair<int,int> > tuple;	
+								tuple.push_back(step[0]);
+								tuple.push_back(step[step.size()-1]);
+								if(find(store.begin(),store.end(),tuple)==store.end())
 									{
 											next_move(level,target,que,step,store,player,i+2*dx,j+2*dy,copy,update,true,depth-1,i,j);
 									}
 									step.pop_back();
-								}
+							}
 								update[i+2*dx][j+2*dy]=store_new;
 								update[i][j]=store_prev;
-							}
+						}
 							copy[i][j]=s;
 						}
 						
@@ -466,15 +380,6 @@ double calculate_score(vector<vector<char> > &config,char player,bool isMax,int 
 				
 			}
 		}
-	/*for(int i=0;i<16;i++)
-		{
-			for(int j=0;j<16;j++)
-			{
-				if(config[i][j]=='B')
-				count=count+white_heur[i][j];
-				
-			}
-		}*/
 		
 
 	}
@@ -491,17 +396,8 @@ double calculate_score(vector<vector<char> > &config,char player,bool isMax,int 
 			}
 		}
 		
-		/*for(int i=0;i<16;i++)
-		{
-			for(int j=0;j<16;j++)
-			{
-				if(config[i][j]=='W')
-				count=count+black_heur[i][j];
-			}
-		}*/
 	}
 	
-	//cout<<-1*count<<endl;
 	count=count-global_depth;
 	return count;
 	
@@ -509,7 +405,6 @@ double calculate_score(vector<vector<char> > &config,char player,bool isMax,int 
 
 bool complete(char player,vector<vector<char> > &config,int& win)
 {
-	//return false;
 	if(player=='B')
 	{
 		set<pair<int,int> > :: iterator it;
@@ -608,14 +503,9 @@ int minmax(int alpha,int beta,int depth,vector<vector<char> > &config, bool isMa
 			
 			for(it=target_max.begin();it!=target_max.end();it++)
 			{
-				//vector<pair<int,int> > step;
 				step.push_back({(*it).first,(*it).second});
-			//	update=config;
-			//	copy=config;
-				//get_state++;
 				next_move(depth,0,que,step,store,player,(*it).first,(*it).second,copy,update,false,10,-1,-1);
 				step.pop_back();
-				//dp[config]=que;
 			}
 		
 		
@@ -628,28 +518,14 @@ int minmax(int alpha,int beta,int depth,vector<vector<char> > &config, bool isMa
 			pair<double,set<vector<pair<int,int> > > :: iterator  > res=que.p.top();
 			
 			set< vector<pair<int,int> > > :: iterator ite= res.second;
-		//	cout<<res.first.first<<" "<<res.first.second<<endl;
-			
 			vector<pair<int,int> > v=*(ite);
 			find_board(v,config,player);
 			change_list(player,ans_target_max,ans_non_target_max,target_max,ans_target_min,ans_non_target_min,target_min,v);
-			
-			//cout<<"befor"<<endl;
-			//cout<<v[0].first<<" "<<v[0].second<<" "<<v[1].first<<" "<<v[1].second<<" ";	
-		//	cout<<" MAX LISTS SIZE " <<(ans_target_max.size()+ans_non_target_max.size()+target_max.size())<<endl;
 			int val;
-			
-			/*for(int i=0;i<v.size();i++)
-				{
-					cout<<v[i].first<<" "<<v[i].second<<" "<<endl;
-				}
-				cout<<endl;*/
 			if(player=='W')
 			val=minmax(alpha,beta,depth-1,config,false,'B',ans_target_max,ans_non_target_max,target_max,ans_target_min,ans_non_target_min,target_min);
 			else
 			val=minmax(alpha,beta,depth-1,config,false,'W',ans_target_max,ans_non_target_max,target_max,ans_target_min,ans_non_target_min,target_min);
-			
-			//cout<<"MAX "<<depth<<endl;
 			if(best<val&&depth==global_depth)
 			{
 				best=val;
@@ -657,9 +533,7 @@ int minmax(int alpha,int beta,int depth,vector<vector<char> > &config, bool isMa
 				result=v;
 				
 				
-			}
-			//cout<<val<<endl;
-			//cout<<"after"<<endl;	
+			}	
 			best=max(best,val);
 			
 			alpha=max(alpha,best);
@@ -679,9 +553,7 @@ int minmax(int alpha,int beta,int depth,vector<vector<char> > &config, bool isMa
 	}
 	else
 	{
-		int best=INT_MAX;
-		//cout<<" FIRST CALL MIN LISTS SIZE " <<(ans_target_min.size()+ans_non_target_min.size()+target_min.size())<<endl;
-			
+		int best=INT_MAX;	
 		vector<vector<char> > copy=config;
 		vector<vector<char> > update=config;
 		set<vector<pair<int,int> > > store;
@@ -694,56 +566,31 @@ int minmax(int alpha,int beta,int depth,vector<vector<char> > &config, bool isMa
 			for(it=ans_target_min.begin();it!=ans_target_min.end();it++)
 			{
 				step.push_back({(*it).first,(*it).second});
-				//update=config;
-				//copy=config;
-				//get_state++;
 				next_move(depth,1,que,step,store,player,(*it).first,(*it).second,copy,update,false,10,-1,-1);
 				step.pop_back();
-				//dp[config]=que;
 			}
 				
 		}
-		//cout<<step.size();
-			//vector<pair<int,int> > step;
-			//update=config;
-			//copy=config;
 			for(it=ans_non_target_min.begin();it!=ans_non_target_min.end();it++)
 			{
 				step.push_back({(*it).first,(*it).second});
-				//update=config;
-				//copy=config;
-				//get_state++;
 				next_move(depth,0,que,step,store,player,(*it).first,(*it).second,copy,update,false,10,-1,-1);
 				step.pop_back();
-				//dp[config]=que;
 			}
-			
-		//	cout<<step.size();
 		
 			for(it=target_min.begin();it!=target_min.end();it++)
 			{
 				step.push_back({(*it).first,(*it).second});
-				//update=config;
-				//copy=config;
-				//get_state++;
 				next_move(depth,0,que,step,store,player,(*it).first,(*it).second,copy,update,false,10,-1,-1);
 				step.pop_back();
 				
 			}
-		
-			//cout<<step.size();
 			while(que.p.empty()==false)
 			{ 
 			pair<double,set<vector<pair<int,int> > > :: iterator  > res=que.p.top();
 			
 			set< vector<pair<int,int> > > :: iterator ite= res.second;
-			//cout<<res.first.first<<" "<<res.first.second<<endl;
-			
 			vector<pair<int,int> > v=*(ite);
-			//vector<vector<char> > b=config;
-			
-		//	cout<<" MIN LISTS SIZE " <<(ans_target_min.size()+ans_non_target_min.size()+target_min.size())<<endl;
-			
 			find_board(v,config,player);
 			change_list(player,ans_target_max,ans_non_target_max,target_max,ans_target_min,ans_non_target_min,target_min,v);
 			int val;
@@ -817,8 +664,6 @@ int main()
 		set<pair<int,int> > ans_non_target_min;
 		set<pair<int,int> > target_min;
 		all_positions_to_target_non(board,target_max,ans_target_max,ans_non_target_max,player[0]);
-		
-		//cout<<ans_target_max.size()<<endl;
 		set<pair<int,int> > :: iterator it;
 		pq que;
 		vector<vector<char> > copy=board;
@@ -837,7 +682,6 @@ int main()
 				step.pop_back();
 			}
 		}
-		//cout<<que.p.size()<<endl;
 		if(que.p.empty()==true)
 		{
 		
@@ -860,9 +704,6 @@ int main()
 			}	
 			
 		}
-		//cout<<que.p.size()<<endl;
-		//while(que.p.empty()==false)
-		//{
 			
 			pair<double,set<vector<pair<int,int> > > :: iterator  > res=que.p.top();
 			
@@ -871,7 +712,6 @@ int main()
 			
 			int s=v.size();
 			vector<pair<int,int> > step=ans[v];
-			//cout<<step.size();
 			if(step.size()==2)
 			{
 				
@@ -897,39 +737,19 @@ int main()
 				}
 			}
 			
-			
-			/*for(int i=0;i<v.size();i++)
-			{
-				cout<<v[i].first<<","<<v[i].second<<" ";
-			}
-			cout<<endl;*/
-			
 			que.p.pop();
-			
-		//}
-		
-		
 	}
 	else if(move=="GAME")
 	{
 		vector<vector<char> > best_board;
 		vector<pair<int,int> > res;
-		
-		/*if(time>10)
-		player_one(board,player[0],2,res,best_board);
-		else
-		player_one(board,player[0],1,res,best_board);*/
 		set<pair<int,int> > ans_target_max;
 		set<pair<int,int> > ans_non_target_max;
 		set<pair<int,int> > target_max;
 		set<pair<int,int> > ans_target_min;
 		set<pair<int,int> > ans_non_target_min;
 		set<pair<int,int> > target_min;
-		
-		
 		all_positions_to_target_non(board,target_max,ans_target_max,ans_non_target_max,player[0]);
-
-		
 		if(player[0]=='B')
 		all_positions_to_target_non(board,target_min,ans_target_min,ans_non_target_min,'W');
 		else
@@ -969,24 +789,13 @@ int main()
 			pair<double,set<vector<pair<int,int> > > :: iterator  > res=que.p.top();
 			
 			set< vector<pair<int,int> > > :: iterator ite= res.second;
-			//cout<<res.first.first<<" "<<res.first.second<<endl;
-			
 			vector<pair<int,int> > v=*(ite);
-		//	vector<vector<char> > b=config;
-			
 			find_board(v,board,player[0]);
 			best_board=board;
 			result=v;
 			int s=v.size();
-			/*for(int i=0;i<s;i++)
-			{
-				cout<<v[i].first<<" "<<v[i].second<<endl;
-			}
-			cout<<endl;*/
 			reverse(v.begin(),v.end());
 			find_board(v,board,player[0]);
-			
-
 			}		
 		}
 		
@@ -1001,28 +810,7 @@ int main()
 		else
 		score=minmax(alpha,beta,global_depth,board, true,'W',ans_target_max,ans_non_target_max,target_max,ans_target_min,ans_non_target_min,target_min);
 		}
-		//cout<<endl<<endl;
-		/*cout<<endl<<"best board"<<endl;
-		for(int i=0;i<16;i++)
-		{
-			for(int j=0;j<16;j++)
-			cout<<best_board[i][j]<<" ";
-			
-			cout<<endl;
-		}
-		*/
-	//	cout<<endl<<"result"<<endl;
-		/*for(int i=0;i<2;i++)
-		{
-			cout<<result[0].first<<" "<<result[0].second<<" "<<result[1].first<<" "<<result[1].second<<endl;
-		}*/
-		/*map<vector<pair<int,int> >,vector<pair<int,int> > > :: iterator it;
-		cout<<endl;
-		for(it=ans.begin();it!=ans.end();it++)
-		{
-			vector<pair<int,int> > p=it->first;
-			cout<<p[0].first<<" "<<p[0].second<<" "<<p[1].first<<" "<<p[1].second<<endl;
-		}*/
+		
 		vector<pair<int,int> > step=ans[result];
 
 			if(step.size()==2)
